@@ -1,0 +1,19 @@
+# backend/public/.htaccess
+
+# Turn on URL rewriting
+RewriteEngine On
+
+# Set the base directory for rewriting (important if your project is in a subfolder of www/)
+# This line is crucial for WampServer installations where the project is not in the root of www/
+# Adjust '/medical-health-records/backend/public/' to your actual base path if different.
+# For example, if your project folder in www/ is named 'my_app', then use '/my_app/backend/public/'
+RewriteBase /medical-health-records/backend/public/
+
+# Rewrite all requests not for actual files or directories to index.php
+# This means:
+# - If the requested path is not an existing file (like .js, .css, images)
+# - AND if the requested path is not an existing directory
+# - THEN rewrite the request to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]

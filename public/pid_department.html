@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Health Records - PID Department</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen bg-gray-100 font-inter p-4">
+
+    <div class="auth-container bg-white p-8 rounded-lg shadow-xl w-full max-w-6xl">
+        <h1 class="text-3xl font-bold text-center text-blue-700 mb-6">PID Department Dashboard</h1>
+        
+        <div class="text-gray-800 text-lg mb-6 text-center">
+            <p>Welcome, <span id="user-full-name" class="font-semibold text-blue-600"></span>!</p>
+            <p>You are logged in to the <span id="user-department" class="font-semibold text-blue-600"></span>.</p>
+            <p class="text-sm text-gray-500 mt-2">Your Employee ID: <span id="user-employee-id" class="font-normal"></span></p>
+        </div>
+
+        <div class="bg-blue-50 p-6 rounded-md border border-blue-200 mb-6">
+            <h2 class="text-xl font-semibold text-blue-800 mb-4">Select a Ward</h2>
+            <p class="text-gray-700 mb-4">
+                Choose a ward from the dropdown menu and click "Go to Ward" to view its daily census sheet.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <select id="ward-select" class="flex-grow w-full sm:w-auto p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="" disabled selected>Choose a Ward</option>
+                </select>
+                <button id="go-to-ward-button"
+                        class="w-full sm:w-auto bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 ease-in-out">
+                    Go to Ward
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Define the list of wards
+            const wards = [
+                "Ward 1", "Ward 2", "Ward 3", "Ward 4", "Ward 5", "Ward 6",
+                "Ward 7", "Ward 8", "Ward 9", "Ward 10", "Ward 11", "Ward 12",
+                "NICU", "ICU"
+            ];
+            
+            // Get the select element and populate it with all wards
+            const wardSelect = document.getElementById('ward-select');
+            if (wardSelect) {
+                wards.forEach(wardName => {
+                    const option = document.createElement('option');
+                    // Use a clean value for the URL, like "NICU" or "Ward1"
+                    option.value = wardName.replace(/\s/g, '');
+                    // Use the friendly name for display
+                    option.textContent = wardName;
+                    wardSelect.appendChild(option);
+                });
+            }
+
+            // Get the user data and perform the authentication check
+            const user = JSON.parse(sessionStorage.getItem('user'));
+            if (!user || user.department !== 'pid_department') {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Populate user details on the page
+            document.getElementById('user-full-name').textContent = `${user.firstName} ${user.middleName ? user.middleName + ' ' : ''}${user.lastName}`;
+            document.getElementById('user-department').textContent = user.department;
+            document.getElementById('user-employee-id').textContent = user.employeeId;
+
+            // Add the event listener for the button
+            const goToWardButton = document.getElementById('go-to-ward-button');
+            if (goToWardButton) {
+                goToWardButton.addEventListener('click', () => {
+                    const selectedWard = wardSelect.value;
+                    if (selectedWard && selectedWard !== "") {
+                        window.location.href = `ward-page.html?ward=${selectedWard}`;
+                    }
+                });
+            }
+        });
+
+        function logout() {
+            sessionStorage.removeItem('user');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

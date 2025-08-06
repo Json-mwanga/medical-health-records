@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (result.user.isAdmin) {
                     window.location.href = 'admin-home.html';
                 } else {
-                    window.location.href = 'department-page.html';
+                    window.location.href = 'pid_department.html';
                 }
             } else {
                 // Login failed (e.g., 401 Unauthorized, 400 Bad Request)

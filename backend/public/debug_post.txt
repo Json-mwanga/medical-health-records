@@ -1,0 +1,71 @@
+Array
+(
+    [admission_sex] => 
+    [admission_hospital_no] => 12003
+    [admission_patient_name] => maneno salum
+    [admission_age] => 67
+    [transferin_sex] => Array
+        (
+            [0] => male
+            [1] => 
+            [2] => 
+        )
+
+    [admission_diagnosis] => bad
+    [admission_treatment] => weekly
+    [admission_sponsors] => cash
+    [discharge_hospital_no] => 
+    [discharge_patient_name] => 
+    [discharge_age] => 
+    [discharge_diagnosis] => 
+    [discharge_treatment] => 
+    [discharge_days] => 
+    [discharge_sponsors] => 
+    [transferin_hospital_no] => 
+    [transferin_patient_name] => 
+    [transferin_age] => 
+    [transferin_diagnosis] => 
+    [transferin_from] => 
+    [transferout_hospital_no] => 
+    [transferout_patient_name] => 
+    [transferout_age] => 
+    [transferout_sex] => 
+    [transferout_diagnosis] => 
+    [transferout_days] => 
+    [transferout_to] => 
+    [death_hospital_no] => 
+    [death_patient_name] => 
+    [death_age] => 
+    [death_sex] => 
+    [death_cause] => 
+    [death_days] => 
+    [add_yesterday_male] => 
+    [add_yesterday_female] => 
+    [add_yesterday_total] => 
+    [add_admission_male] => 
+    [add_admission_female] => 
+    [add_admission_total] => 
+    [add_transferin_male] => 
+    [add_transferin_female] => 
+    [add_transferin_total] => 
+    [add_total_male] => 
+    [add_total_female] => 
+    [add_total_total] => 
+    [sub_discharge_male] => 
+    [sub_discharge_female] => 
+    [sub_discharge_total] => 
+    [sub_transferout_male] => 
+    [sub_transferout_female] => 
+    [sub_transferout_total] => 
+    [sub_death_male] => 
+    [sub_death_female] => 
+    [sub_death_total] => 
+    [sub_total_male] => 
+    [sub_total_female] => 
+    [sub_total_total] => 
+    [reported_by_name] => dg son
+    [reported_by_designation] => assistant 
+    [reported_by_signature] => d.g.son
+    [ward] => Ward4
+    [date] => 2025-08-11
+)

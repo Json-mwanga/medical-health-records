@@ -13,39 +13,20 @@ $dbHost = getenv('DB_HOST') ?: 'localhost'; // Default to 'localhost' if not set
 $dbUser = getenv('DB_USER') ?: 'root';     // Default to 'root'
 $dbPass = getenv('DB_PASSWORD') ?: '';     // Default to empty password
 $dbName = getenv('DB_NAME') ?: 'medical_records_db'; // Default database name
+$charset = 'utf8mb4';
 
-/**
- * Establishes and returns a new MySQLi database connection.
- *
- * @return mysqli Returns a MySQLi object on successful connection.
- * @throws Exception if the connection fails.
- */
-function getDbConnection(): mysqli {
-    global $dbHost, $dbUser, $dbPass, $dbName;
+$dsn = "mysql:host=$dbHost;dbname=$dbName;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
 
-    // Enable error reporting for MySQLi
-    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
-    try {
-        $conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
-        // Set the charset to UTF-8 for proper character handling
-        $conn->set_charset("utf8mb4");
-        return $conn;
-    } catch (mysqli_sql_exception $e) {
-        // Log the error (in a real app, don't show detailed error to user)
-        error_log("Database connection failed: " . $e->getMessage());
-        // For development, you can die with the error. In production, show a generic message.
-        die("Connection to database failed: " . $e->getMessage());
-    }
+try {
+    $pdo = new PDO($dsn, $dbUser, $dbPass, $options);
+} catch (PDOException $e) {
+    // Log the error and return a generic message
+    error_log("Database connection failed: " . $e->getMessage());
+    die(json_encode(['success' => false, 'message' => 'Database connection failed.']));
 }
-
-// Example usage (for testing connection - remove in production)
-// try {
-//     $conn = getDbConnection();
-//     echo "Database connected successfully!";
-//     $conn->close();
-// } catch (Exception $e) {
-//     echo $e->getMessage();
-// }
-
 ?>

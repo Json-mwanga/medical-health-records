@@ -3,6 +3,8 @@
 
 require_once __DIR__ . '/../models/User.php'; // Include the User model
 
+header('Content-Type: application/json');
+
 /**
  * Handles user signup requests.
  * Reads data from the request body, validates it, creates a new user,
@@ -12,6 +14,8 @@ function handleSignup() {
     // Get raw POST data
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
+
+    $data = array_map('trim', $data);
 
     // Basic validation
     if (empty($data['firstName']) || empty($data['lastName']) || empty($data['employeeId']) || empty($data['email']) || empty($data['department']) || empty($data['password']) || empty($data['confirmPassword'])) {
@@ -29,6 +33,12 @@ function handleSignup() {
     if (strlen($data['password']) < 6) {
         echo json_encode(['success' => false, 'message' => 'Password must be at least 6 characters long.']);
         http_response_code(400); // Bad Request
+        return;
+    }
+
+    if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(['success' => false, 'message' => 'Invalid email format.']);
+        http_response_code(400);
         return;
     }
 
@@ -83,6 +93,8 @@ function handleLogin() {
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
 
+    $data = array_map('trim', $data);
+
     // Basic validation
     if (empty($data['email']) || empty($data['password'])) {
         echo json_encode(['success' => false, 'message' => 'Please provide email and password.']);
@@ -98,7 +110,7 @@ function handleLogin() {
         // Login successful
         // Prepare user data to send back to frontend (EXCLUDE password_hash!)
         $responseUser = [
-            'fullName' => $user['first_name'] . ' ' . ($user['middle_name'] ? $user['middle_name'] . ' ' : '') . $user['last_name'],
+            'fullName' => trim($user['first_name'] . ' ' . ($user['middle_name'] ? $user['middle_name'] . ' ' : '') . $user['last_name']),
             'firstName' => $user['first_name'],
             'middleName' => $user['middle_name'],
             'lastName' => $user['last_name'],

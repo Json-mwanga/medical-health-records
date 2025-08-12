@@ -10,7 +10,10 @@
 <body class="flex flex-col items-center justify-center min-h-screen bg-gray-100 font-inter p-4">
 
     <div class="auth-container bg-white p-8 rounded-lg shadow-xl w-full max-w-6xl">
-        <h1 class="text-3xl font-bold text-center text-blue-700 mb-6">PID Department Dashboard</h1>
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-3xl font-bold text-center text-blue-700 mb-6 flex-1">PID Department Dashboard</h1>
+            <button onclick="logout()" class="ml-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400">Logout</button>
+        </div>
         
         <div class="text-gray-800 text-lg mb-6 text-center">
             <p>Welcome, <span id="user-full-name" class="font-semibold text-blue-600"></span>!</p>
@@ -24,8 +27,9 @@
                 Choose a ward from the dropdown menu and click "Go to Ward" to view its daily census sheet.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <label for="ward-select" class="sr-only">Ward</label>
                 <select id="ward-select" class="flex-grow w-full sm:w-auto p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="" disabled selected>Choose a Ward</option>
+                    <option value="" disabled selected hidden>Choose a Ward</option>
                 </select>
                 <button id="go-to-ward-button"
                         class="w-full sm:w-auto bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 ease-in-out">
@@ -49,9 +53,7 @@
             if (wardSelect) {
                 wards.forEach(wardName => {
                     const option = document.createElement('option');
-                    // Use a clean value for the URL, like "NICU" or "Ward1"
                     option.value = wardName.replace(/\s/g, '');
-                    // Use the friendly name for display
                     option.textContent = wardName;
                     wardSelect.appendChild(option);
                 });
@@ -65,17 +67,18 @@
             }
 
             // Populate user details on the page
-            document.getElementById('user-full-name').textContent = `${user.firstName} ${user.middleName ? user.middleName + ' ' : ''}${user.lastName}`;
-            document.getElementById('user-department').textContent = user.department;
-            document.getElementById('user-employee-id').textContent = user.employeeId;
+            document.getElementById('user-full-name').textContent =
+                `${user.firstName ?? ''} ${user.middleName ? user.middleName + ' ' : ''}${user.lastName ?? ''}`;
+            document.getElementById('user-department').textContent = user.department ?? '';
+            document.getElementById('user-employee-id').textContent = user.employeeId ?? '';
 
             // Add the event listener for the button
             const goToWardButton = document.getElementById('go-to-ward-button');
-            if (goToWardButton) {
+            if (goToWardButton && wardSelect) {
                 goToWardButton.addEventListener('click', () => {
                     const selectedWard = wardSelect.value;
                     if (selectedWard && selectedWard !== "") {
-                        window.location.href = `ward-page.html?ward=${selectedWard}`;
+                        window.location.href = `ward-page.html?ward=${encodeURIComponent(selectedWard)}`;
                     }
                 });
             }

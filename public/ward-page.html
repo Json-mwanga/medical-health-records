@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ward Daily Census Sheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-inter p-4">
+    <div class="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-xl">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-blue-700">Ward Daily Census Sheet</h1>
+            <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
+        </div>
+        <div class="mb-4">
+            <span class="font-semibold">Ward:</span>
+            <span id="ward-name" class="text-blue-700"></span>
+        </div>
+        <div id="save-message" class="mb-4 text-center font-semibold"></div>
+        <form id="census-form">
+            <!-- ADMISSION -->
+            <h2 class="text-lg font-semibold mt-6 mb-2">Admission</h2>
+            <div class="relative">
+                <button type="button" class="absolute right-0 -top-8 text-blue-600 text-2xl add-row-btn" data-table="admission-table" title="Add Row">+</button>
+                <table id="admission-table" class="w-full mb-4 border">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="border px-2 py-1">S/N</th>
+                            <th class="border px-2 py-1">Hospital No</th>
+                            <th class="border px-2 py-1">Patient Name</th>
+                            <th class="border px-2 py-1">Age</th>
+                            <th class="border px-2 py-1">Sex</th>
+                            <th class="border px-2 py-1">Admission Diagnosis</th>
+                            <th class="border px-2 py-1">Treatment Plan</th>
+                            <th class="border px-2 py-1">Sponsors</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border px-2 py-1">1</td>
+                            <td class="border px-2 py-1"><input type="text" name="admission_hospital_no[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="admission_patient_name[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="admission_age[]" class="w-full"></td>
+                            <td class="border px-2 py-1">
+                                <select name="transferin_sex[]" class="w-full">
+                                    <option value="">Select</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </td>
+                            <td class="border px-2 py-1"><input type="text" name="admission_diagnosis[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="admission_treatment[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="admission_sponsors[]" class="w-full"></td>
+                            
+                              <input type="text" name="admission_sex[]" class="w-full">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- DISCHARGE -->
+            <h2 class="text-lg font-semibold mt-6 mb-2">Discharge</h2>
+            <div class="relative">
+                <button type="button" class="absolute right-0 -top-8 text-blue-600 text-2xl add-row-btn" data-table="discharge-table" title="Add Row">+</button>
+                <table id="discharge-table" class="w-full mb-4 border">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="border px-2 py-1">S/N</th>
+                            <th class="border px-2 py-1">Hospital No</th>
+                            <th class="border px-2 py-1">Patient Name</th>
+                            <th class="border px-2 py-1">Age</th>
+                            <th class="border px-2 py-1">Sex</th>
+                            <th class="border px-2 py-1">Diagnosis</th>
+                            <th class="border px-2 py-1">Treatment Plan After Discharge</th>
+                            <th class="border px-2 py-1">In-Patient Days</th>
+                            <th class="border px-2 py-1">Sponsors</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border px-2 py-1">1</td>
+                            <td class="border px-2 py-1"><input type="text" name="discharge_hospital_no[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="discharge_patient_name[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="discharge_age[]" class="w-full"></td>
+                            <td class="border px-2 py-1">
+                                <select name="transferin_sex[]" class="w-full">
+                                    <option value="">Select</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </td>
+                            <td class="border px-2 py-1"><input type="text" name="discharge_diagnosis[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="discharge_treatment[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="discharge_days[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="discharge_sponsors[]" class="w-full"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- TRANSFER IN -->
+            <h2 class="text-lg font-semibold mt-6 mb-2">Transfer In</h2>
+            <div class="relative">
+                <button type="button" class="absolute right-0 -top-8 text-blue-600 text-2xl add-row-btn" data-table="transferin-table" title="Add Row">+</button>
+                <table id="transferin-table" class="w-full mb-4 border">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="border px-2 py-1">S/N</th>
+                            <th class="border px-2 py-1">Hospital No</th>
+                            <th class="border px-2 py-1">Patient Name</th>
+                            <th class="border px-2 py-1">Age</th>
+                            <th class="border px-2 py-1">Sex</th>
+                            <th class="border px-2 py-1">Diagnosis</th>
+                            <th class="border px-2 py-1">Transferred From</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border px-2 py-1">1</td>
+                            <td class="border px-2 py-1"><input type="text" name="transferin_hospital_no[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="transferin_patient_name[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="transferin_age[]" class="w-full"></td>
+                            <td class="border px-2 py-1">
+                                <select name="transferin_sex[]" class="w-full">
+                                    <option value="">Select</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </td>
+                            <td class="border px-2 py-1"><input type="text" name="transferin_diagnosis[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="transferin_from[]" class="w-full"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- TRANSFER OUT -->
+            <h2 class="text-lg font-semibold mt-6 mb-2">Transfer Out</h2>
+            <div class="relative">
+                <button type="button" class="absolute right-0 -top-8 text-blue-600 text-2xl add-row-btn" data-table="transferout-table" title="Add Row">+</button>
+                <table id="transferout-table" class="w-full mb-4 border">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="border px-2 py-1">S/N</th>
+                            <th class="border px-2 py-1">Hospital No</th>
+                            <th class="border px-2 py-1">Patient Name</th>
+                            <th class="border px-2 py-1">Age</th>
+                            <th class="border px-2 py-1">Sex</th>
+                            <th class="border px-2 py-1">Diagnosis</th>
+                            <th class="border px-2 py-1">In-Patient Days</th>
+                            <th class="border px-2 py-1">Transfer To</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border px-2 py-1">1</td>
+                            <td class="border px-2 py-1"><input type="text" name="transferout_hospital_no[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="transferout_patient_name[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="transferout_age[]" class="w-full"></td>
+                            <td class="border px-2 py-1">
+                                <select name="transferout_sex[]" class="w-full">
+                                    <option value="">Select</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </td>
+                            <td class="border px-2 py-1"><input type="text" name="transferout_diagnosis[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="transferout_days[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="transferout_to[]" class="w-full"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- DEATH -->
+            <h2 class="text-lg font-semibold mt-6 mb-2">Death</h2>
+            <div class="relative">
+                <button type="button" class="absolute right-0 -top-8 text-blue-600 text-2xl add-row-btn" data-table="death-table" title="Add Row">+</button>
+                <table id="death-table" class="w-full mb-4 border">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="border px-2 py-1">S/N</th>
+                            <th class="border px-2 py-1">Hospital No</th>
+                            <th class="border px-2 py-1">Patient Name</th>
+                            <th class="border px-2 py-1">Age</th>
+                            <th class="border px-2 py-1">Sex</th>
+                            <th class="border px-2 py-1">Cause of Death</th>
+                            <th class="border px-2 py-1">In-Patient Days</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border px-2 py-1">1</td>
+                            <td class="border px-2 py-1"><input type="text" name="death_hospital_no[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="death_patient_name[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="death_age[]" class="w-full"></td>
+                            <td class="border px-2 py-1">
+                                <select name="death_sex[]" class="w-full">
+                                    <option value="">Select</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </td>
+                            <td class="border px-2 py-1"><input type="text" name="death_cause[]" class="w-full"></td>
+                            <td class="border px-2 py-1"><input type="text" name="death_days[]" class="w-full"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ADD FOR TOTAL -->
+            <h2 class="text-lg font-semibold mt-6 mb-2">Add for Total</h2>
+            <table class="w-full mb-4 border">
+                <thead>
+                    <tr class="bg-blue-100">
+                        <th class="border px-2 py-1"></th>
+                        <th class="border px-2 py-1">Male</th>
+                        <th class="border px-2 py-1">Female</th>
+                        <th class="border px-2 py-1">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border px-2 py-1">Number of patients yesterday (bed state)</td>
+                        <td class="border px-2 py-1"><input type="number" name="add_yesterday_male" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="add_yesterday_female" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="add_yesterday_total" class="w-full"></td>
+                    </tr>
+                    <tr>
+                        <td class="border px-2 py-1">Add Admission as per @ 23:59Hrs today</td>
+                        <td class="border px-2 py-1"><input type="number" name="add_admission_male" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="add_admission_female" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="add_admission_total" class="w-full"></td>
+                    </tr>
+                    <tr>
+                        <td class="border px-2 py-1">Add Transfer In as per @ 23:59Hrs today</td>
+                        <td class="border px-2 py-1"><input type="number" name="add_transferin_male" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="add_transferin_female" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="add_transferin_total" class="w-full"></td>
+                    </tr>
+                    <tr>
+                        <td class="border px-2 py-1 font-bold">TOTAL</td>
+                        <td class="border px-2 py-1"><input type="number" name="add_total_male" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="add_total_female" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="add_total_total" class="w-full"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- SUBTRACT TOTAL -->
+            <h2 class="text-lg font-semibold mt-6 mb-2">Subtract Total</h2>
+            <table class="w-full mb-4 border">
+                <thead>
+                    <tr class="bg-blue-100">
+                        <th class="border px-2 py-1"></th>
+                        <th class="border px-2 py-1">Male</th>
+                        <th class="border px-2 py-1">Female</th>
+                        <th class="border px-2 py-1">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border px-2 py-1">Subtract Discharges Today</td>
+                        <td class="border px-2 py-1"><input type="number" name="sub_discharge_male" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="sub_discharge_female" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="sub_discharge_total" class="w-full"></td>
+                    </tr>
+                    <tr>
+                        <td class="border px-2 py-1">Subtract Transfer Out Today</td>
+                        <td class="border px-2 py-1"><input type="number" name="sub_transferout_male" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="sub_transferout_female" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="sub_transferout_total" class="w-full"></td>
+                    </tr>
+                    <tr>
+                        <td class="border px-2 py-1">Subtract Death Today</td>
+                        <td class="border px-2 py-1"><input type="number" name="sub_death_male" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="sub_death_female" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="sub_death_total" class="w-full"></td>
+                    </tr>
+                    <tr>
+                        <td class="border px-2 py-1 font-bold">TOTAL</td>
+                        <td class="border px-2 py-1"><input type="number" name="sub_total_male" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="sub_total_female" class="w-full"></td>
+                        <td class="border px-2 py-1"><input type="number" name="sub_total_total" class="w-full"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- TODAY BED STATE -->
+            <h2 class="text-lg font-semibold mt-6 mb-2">Today Bed State</h2>
+            <table class="w-full mb-4 border">
+                <tbody>
+                    <tr>
+                        <td class="border px-2 py-1 w-3/4">ALL ADMISSION AND DEATH MUST BE ENTERED IN THE DAILY CENSUS</td>
+                        <td class="border px-2 py-1 w-1/4"></td>
+                    </tr>
+                    <tr>
+                        <td class="border px-2 py-1">DO THE FIGURES MATCH WITH THE NUMBER OF PATIENTS IN THE WARD TODAY?</td>
+                        <td class="border px-2 py-1 flex gap-2">
+                            <label><input type="radio" name="figures_match" value="yes"> Yes</label>
+                            <label><input type="radio" name="figures_match" value="no"> No</label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- REPORTED BY -->
+            <h2 class="text-lg font-semibold mt-6 mb-2">Reported By</h2>
+            <table class="w-full mb-4 border">
+                <tbody>
+                    <tr>
+                        <td class="border px-2 py-1">Name</td>
+                        <td class="border px-2 py-1"><input type="text" name="reported_by_name" class="w-full"></td>
+                        <td class="border px-2 py-1">Designation</td>
+                        <td class="border px-2 py-1"><input type="text" name="reported_by_designation" class="w-full"></td>
+                        <td class="border px-2 py-1">Signature</td>
+                        <td class="border px-2 py-1"><input type="text" name="reported_by_signature" class="w-full"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="mt-8 flex justify-end">
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Save</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        // Display ward name from URL
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const ward = params.get('ward');
+            document.getElementById('ward-name').textContent = ward || '';
+
+            // Add row functionality for each table
+            document.querySelectorAll('.add-row-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tableId = this.getAttribute('data-table');
+                    const table = document.getElementById(tableId);
+                    const tbody = table.querySelector('tbody');
+                    const firstRow = tbody.querySelector('tr');
+                    const newRow = firstRow.cloneNode(true);
+
+                    // Clear input values and update S/N
+                    newRow.querySelectorAll('input').forEach(input => input.value = '');
+                    const rowCount = tbody.querySelectorAll('tr').length + 1;
+                    newRow.querySelector('td').textContent = rowCount;
+                    tbody.appendChild(newRow);
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+    const ward = document.getElementById('ward-name').textContent;
+    const date = new Date().toISOString().slice(0,10);
+
+    const response = await fetch(`/medical-health-records/backend/public/census.php?ward=${encodeURIComponent(ward)}&date=${encodeURIComponent(date)}`);
+    const result = await response.json();
+    if (!(result.success && result.data)) return;
+
+    // --- Admissions ---
+    const admissions = result.data.admissions || [];
+    const admissionTbody = document.querySelector('#admission-table tbody');
+    // Remove all but first row
+    while (admissionTbody.rows.length > 1) admissionTbody.deleteRow(1);
+    admissions.forEach((row, i) => {
+        let tr;
+        if (i === 0) {
+            tr = admissionTbody.rows[0];
+        } else {
+            tr = admissionTbody.rows[0].cloneNode(true);
+            admissionTbody.appendChild(tr);
+        }
+        tr.querySelector('[name="admission_hospital_no[]"]').value = row.hospital_no || '';
+        tr.querySelector('[name="admission_patient_name[]"]').value = row.patient_name || '';
+        tr.querySelector('[name="admission_age[]"]').value = row.age || '';
+        tr.querySelector('[name="admission_diagnosis[]"]').value = row.admission_diagnosis || '';
+        tr.querySelector('[name="admission_treatment[]"]').value = row.treatment_plan || '';
+        tr.querySelector('[name="admission_sponsors[]"]').value = row.sponsors || '';
+        tr.querySelector('[name="admission_sex[]"]').value = row.sex || '';
+        tr.querySelector('td').textContent = i + 1;
+    });
+
+    // --- Discharges ---
+    const discharges = result.data.discharges || [];
+    const dischargeTbody = document.querySelector('#discharge-table tbody');
+    while (dischargeTbody.rows.length > 1) dischargeTbody.deleteRow(1);
+    discharges.forEach((row, i) => {
+        let tr;
+        if (i === 0) {
+            tr = dischargeTbody.rows[0];
+        } else {
+            tr = dischargeTbody.rows[0].cloneNode(true);
+            dischargeTbody.appendChild(tr);
+        }
+        tr.querySelector('[name="discharge_hospital_no[]"]').value = row.hospital_no || '';
+        tr.querySelector('[name="discharge_patient_name[]"]').value = row.patient_name || '';
+        tr.querySelector('[name="discharge_age[]"]').value = row.age || '';
+        tr.querySelector('[name="discharge_diagnosis[]"]').value = row.diagnosis || '';
+        tr.querySelector('[name="discharge_treatment[]"]').value = row.treatment_plan_after_discharge || '';
+        tr.querySelector('[name="discharge_days[]"]').value = row.in_patient_days || '';
+        tr.querySelector('[name="discharge_sponsors[]"]').value = row.sponsors || '';
+        tr.querySelector('[name="discharge_sex[]"]').value = row.sex || '';
+        tr.querySelector('td').textContent = i + 1;
+    });
+
+    // --- Transfers In ---
+    const transfersIn = result.data.transfers_in || [];
+    const transferInTbody = document.querySelector('#transferin-table tbody');
+    while (transferInTbody.rows.length > 1) transferInTbody.deleteRow(1);
+    transfersIn.forEach((row, i) => {
+        let tr;
+        if (i === 0) {
+            tr = transferInTbody.rows[0];
+        } else {
+            tr = transferInTbody.rows[0].cloneNode(true);
+            transferInTbody.appendChild(tr);
+        }
+        tr.querySelector('[name="transferin_hospital_no[]"]').value = row.hospital_no || '';
+        tr.querySelector('[name="transferin_patient_name[]"]').value = row.patient_name || '';
+        tr.querySelector('[name="transferin_age[]"]').value = row.age || '';
+        tr.querySelector('[name="transferin_sex[]"]').value = row.sex || '';
+        tr.querySelector('[name="transferin_diagnosis[]"]').value = row.diagnosis || '';
+        tr.querySelector('[name="transferin_from[]"]').value = row.transferred_from || '';
+        tr.querySelector('td').textContent = i + 1;
+    });
+
+    // --- Transfers Out ---
+    const transfersOut = result.data.transfers_out || [];
+    const transferOutTbody = document.querySelector('#transferout-table tbody');
+    while (transferOutTbody.rows.length > 1) transferOutTbody.deleteRow(1);
+    transfersOut.forEach((row, i) => {
+        let tr;
+        if (i === 0) {
+            tr = transferOutTbody.rows[0];
+        } else {
+            tr = transferOutTbody.rows[0].cloneNode(true);
+            transferOutTbody.appendChild(tr);
+        }
+        tr.querySelector('[name="transferout_hospital_no[]"]').value = row.hospital_no || '';
+        tr.querySelector('[name="transferout_patient_name[]"]').value = row.patient_name || '';
+        tr.querySelector('[name="transferout_age[]"]').value = row.age || '';
+        tr.querySelector('[name="transferout_sex[]"]').value = row.sex || '';
+        tr.querySelector('[name="transferout_diagnosis[]"]').value = row.diagnosis || '';
+        tr.querySelector('[name="transferout_days[]"]').value = row.in_patient_days || '';
+        tr.querySelector('[name="transferout_to[]"]').value = row.transfer_to || '';
+        tr.querySelector('td').textContent = i + 1;
+    });
+
+    // --- Deaths ---
+    const deaths = result.data.deaths || [];
+    const deathTbody = document.querySelector('#death-table tbody');
+    while (deathTbody.rows.length > 1) deathTbody.deleteRow(1);
+    deaths.forEach((row, i) => {
+        let tr;
+        if (i === 0) {
+            tr = deathTbody.rows[0];
+        } else {
+            tr = deathTbody.rows[0].cloneNode(true);
+            deathTbody.appendChild(tr);
+        }
+        tr.querySelector('[name="death_hospital_no[]"]').value = row.hospital_no || '';
+        tr.querySelector('[name="death_patient_name[]"]').value = row.patient_name || '';
+        tr.querySelector('[name="death_age[]"]').value = row.age || '';
+        tr.querySelector('[name="death_sex[]"]').value = row.sex || '';
+        tr.querySelector('[name="death_cause[]"]').value = row.cause_of_death || '';
+        tr.querySelector('[name="death_days[]"]').value = row.in_patient_days || '';
+        tr.querySelector('td').textContent = i + 1;
+    });
+
+    // --- Census Totals ---
+    const totals = result.data.totals || [];
+    const totalsMap = {};
+    totals.forEach(row => {
+        totalsMap[`${row.type}_${row.label}`] = row;
+    });
+    // Add for Total
+    document.querySelector('[name="add_yesterday_male"]').value = (totalsMap['add_yesterday_bed_state']?.male) || '';
+    document.querySelector('[name="add_yesterday_female"]').value = (totalsMap['add_yesterday_bed_state']?.female) || '';
+    document.querySelector('[name="add_yesterday_total"]').value = (totalsMap['add_yesterday_bed_state']?.total) || '';
+    document.querySelector('[name="add_admission_male"]').value = (totalsMap['add_admission_today']?.male) || '';
+    document.querySelector('[name="add_admission_female"]').value = (totalsMap['add_admission_today']?.female) || '';
+    document.querySelector('[name="add_admission_total"]').value = (totalsMap['add_admission_today']?.total) || '';
+    document.querySelector('[name="add_transferin_male"]').value = (totalsMap['add_transfer_in_today']?.male) || '';
+    document.querySelector('[name="add_transferin_female"]').value = (totalsMap['add_transfer_in_today']?.female) || '';
+    document.querySelector('[name="add_transferin_total"]').value = (totalsMap['add_transfer_in_today']?.total) || '';
+    document.querySelector('[name="add_total_male"]').value = (totalsMap['add_total']?.male) || '';
+    document.querySelector('[name="add_total_female"]').value = (totalsMap['add_total']?.female) || '';
+    document.querySelector('[name="add_total_total"]').value = (totalsMap['add_total']?.total) || '';
+    // Subtract Total
+    document.querySelector('[name="sub_discharge_male"]').value = (totalsMap['subtract_discharge_today']?.male) || '';
+    document.querySelector('[name="sub_discharge_female"]').value = (totalsMap['subtract_discharge_today']?.female) || '';
+    document.querySelector('[name="sub_discharge_total"]').value = (totalsMap['subtract_discharge_today']?.total) || '';
+    document.querySelector('[name="sub_transferout_male"]').value = (totalsMap['subtract_transfer_out_today']?.male) || '';
+    document.querySelector('[name="sub_transferout_female"]').value = (totalsMap['subtract_transfer_out_today']?.female) || '';
+    document.querySelector('[name="sub_transferout_total"]').value = (totalsMap['subtract_transfer_out_today']?.total) || '';
+    document.querySelector('[name="sub_death_male"]').value = (totalsMap['subtract_death_today']?.male) || '';
+    document.querySelector('[name="sub_death_female"]').value = (totalsMap['subtract_death_today']?.female) || '';
+    document.querySelector('[name="sub_death_total"]').value = (totalsMap['subtract_death_today']?.total) || '';
+    document.querySelector('[name="sub_total_male"]').value = (totalsMap['subtract_total']?.male) || '';
+    document.querySelector('[name="sub_total_female"]').value = (totalsMap['subtract_total']?.female) || '';
+    document.querySelector('[name="sub_total_total"]').value = (totalsMap['subtract_total']?.total) || '';
+
+    // --- Reported By ---
+    if (result.data.sheet) {
+        document.querySelector('[name="reported_by_name"]').value = result.data.sheet.reported_by_name || '';
+        document.querySelector('[name="reported_by_designation"]').value = result.data.sheet.reported_by_designation || '';
+        document.querySelector('[name="reported_by_signature"]').value = result.data.sheet.reported_by_signature || '';
+        // Figures match radio
+        if (result.data.sheet.figures_match === 'yes') {
+            document.querySelector('[name="figures_match"][value="yes"]').checked = true;
+        } else if (result.data.sheet.figures_match === 'no') {
+            document.querySelector('[name="figures_match"][value="no"]').checked = true;
+        }
+    }
+});
+
+        document.getElementById('census-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((value, key) => {
+        // Remove [] from key if present
+        const cleanKey = key.replace(/\[\]$/, '');
+        if (data[cleanKey]) {
+            if (!Array.isArray(data[cleanKey])) data[cleanKey] = [data[cleanKey]];
+            data[cleanKey].push(value);
+        } else {
+            data[cleanKey] = value;
+        }
+    });
+    data.ward = document.getElementById('ward-name').textContent;
+    data.date = new Date().toISOString().slice(0,10);
+
+    const messageDiv = document.getElementById('save-message');
+    messageDiv.textContent = "Saving...";
+    messageDiv.className = "mb-4 text-center font-semibold text-blue-600";
+
+    try {
+        const response = await fetch('/medical-health-records/backend/public/census.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (result.success) {
+            messageDiv.textContent = result.message || "Saved!";
+            messageDiv.className = "mb-4 text-center font-semibold text-green-600";
+        } else {
+            messageDiv.textContent = result.message || "Failed to save!";
+            messageDiv.className = "mb-4 text-center font-semibold text-red-600";
+        }
+    } catch (err) {
+        messageDiv.textContent = "Network or server error. Please try again.";
+        messageDiv.className = "mb-4 text-center font-semibold text-red-600";
+    }
+});
+
+        function logout() {
+            sessionStorage.removeItem('user');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
